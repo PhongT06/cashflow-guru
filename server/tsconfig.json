@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es6",              /* Use ES6 for modern JavaScript features compatible with Node.js */
+    "module": "commonjs",         /* Use CommonJS module system for Node.js compatibility */
+
+    /* Emit */
+    "outDir": "./dist",           /* Output compiled JS files to a 'dist' folder */
+    "rootDir": "./",              /* Treat the server folder as the root for source files */
+
+    /* Interop Constraints */
+    "esModuleInterop": true,      /* Enable interop between CommonJS and ES Modules (e.g., for 'express') */
+    "forceConsistentCasingInFileNames": true, /* Ensure consistent file casing for imports */
+
+    /* Type Checking */
+    "strict": true,               /* Enable all strict type-checking options for safety */
+    "skipLibCheck": true          /* Skip checking .d.ts files to speed up compilation */
+  }
+}

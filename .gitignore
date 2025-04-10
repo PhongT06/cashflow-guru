@@ -1,0 +1,32 @@
+# Node.js dependencies
+node_modules/
+*.log
+npm-debug.log*
+
+# Build outputs
+dist/
+build/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Environment variables
+.env
+*.env.*
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Client-specific (React)
+client/build/
+client/node_modules/
+
+# Server-specific
+server/dist/
+server/node_modules/
