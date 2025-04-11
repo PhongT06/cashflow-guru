@@ -15,5 +15,7 @@
     /* Type Checking */
     "strict": true,               /* Enable all strict type-checking options for safety */
     "skipLibCheck": true          /* Skip checking .d.ts files to speed up compilation */
-  }
+  },
+  "include": ["*.ts"],            /* Include all .ts files in the server directory */
+  "exclude": ["node_modules", "dist"] /* Exclude node_modules and compiled output */
 }
