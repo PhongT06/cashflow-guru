@@ -1,6 +1,7 @@
-import express, { Request, Response,  RequestHandler } from 'express';
+import express, { Request, Response,  RequestHandler, NextFunction } from 'express';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 app.use(express.json());
@@ -17,26 +18,45 @@ type Expense = {
    amount: number;
    category: string;
    date: string;
+   userId: number;
 };
 
 let users: User[] = [];
-
 let expenses: Expense[] = [];
 
-app.post('/expenses', (req: Request, res: Response) => {
+const authenticateToken: RequestHandler = (req: Request, res: Response, next: NextFunction): void => {
+   const authHeader = req.headers['authorization'];
+   const token = authHeader && authHeader.split(' ')[1];
+   if (!token) {
+      res.status(401).json({ error: 'Unauthorized: No token provided' });
+      return;
+   }
+   try {
+      const decoded = jwt.verify(token, 'your-secret-key') as { userId: number };
+      (req as any).user = decoded;
+      next();
+   } catch (error) {
+      res.status(403).json({ error: 'Forbidden: Invalid token' });
+   }
+};
+
+app.post('/expenses', authenticateToken, (req: Request, res: Response) => {
    const { amount, category, date } = req.body;
+   const userId = (req as any).user.userId;
    const newExpense: Expense = {
       id: expenses.length + 1,
       amount,
       category,
       date,
+      userId,
    };
    expenses.push(newExpense);
    res.status(201).json(newExpense);
 });
 
-app.get('/expenses', (req: Request, res: Response) => {
-   res.json(expenses);
+app.get('/expenses', authenticateToken, (req: Request, res: Response) => {
+   const userId = (req as any).user.userId;
+   res.json(expenses.filter((e) => e.userId === userId));
 });
 
 const registerHandler: RequestHandler = async (req: Request, res: Response): Promise<void> => {
@@ -77,7 +97,8 @@ const loginHandler: RequestHandler = async (req: Request, res: Response): Promis
       res.status(401).json({ error: 'Invalid email or password' });
       return;
    }
-   res.status(200).json({ message: 'Login successful', userId: user.id });
+   const token = jwt.sign({ userId: user.id }, 'your-secret-key', { expiresIn: '1h' });
+   res.status(200).json({ message: 'Login successful', token });
 };
 
 app.post('/login', loginHandler);
