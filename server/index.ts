@@ -61,4 +61,25 @@ const registerHandler: RequestHandler = async (req: Request, res: Response): Pro
 
 app.post('/register', registerHandler);
 
+const loginHandler: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+   const { email, password } = req.body;
+   if (!email || !password) {
+      res.status(400).json({ error: 'Missing required fields' });
+      return;
+   }
+   const user = users.find((u) => u.email === email);
+   if (!user) {
+      res.status(401).json({ error: 'Invalid email or password' });
+      return;
+   }
+   const isPasswordValid = await bcrypt.compare(password, user.password);
+   if (!isPasswordValid) {
+      res.status(401).json({ error: 'Invalid email or password' });
+      return;
+   }
+   res.status(200).json({ message: 'Login successful', userId: user.id });
+};
+
+app.post('/login', loginHandler);
+
 app.listen(3001, () => console.log('Server running on port 3001'));
