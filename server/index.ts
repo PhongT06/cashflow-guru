@@ -5,6 +5,10 @@ import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import 'dotenv/config';
 
+interface AuthRequest extends Request {
+   user?: { userId: number };
+}
+
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000'}));
@@ -138,6 +142,23 @@ const profileHandler: RequestHandler = (req: Request, res: Response): void => {
 
 app.post('/profile', authenticateToken, profileHandler);
 
+const getProfileHandler: RequestHandler = (req: Request, res: Response): void => {
+   const userId = (req as any).user.userId;
+   const user = users.find((u) => u.id === userId);
+   if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+   }
+   const userData = {
+      income: user.income || 0,
+      debts: user.debts || [],
+      savingsGoals: user.savingsGoals || [],
+   };
+   res.json(userData);
+};
+
+app.get('/profile', authenticateToken, getProfileHandler);
+
 const adviceHandler: RequestHandler = async (req: Request, res: Response): Promise<void> => {
    const userId = (req as any).user.userId;
    const user = users.find((u) => u.id === userId);
@@ -200,7 +221,7 @@ const adviceHandler: RequestHandler = async (req: Request, res: Response): Promi
       prompt = prompt.slice(0, -2);
       prompt += `. `;
    }
-   prompt += `In 3-4 sentences, suggest how to allocate their disposable income between debt repayment and savings as percentages, calculate how many months it will take to pay off the debt and reach the savings goal based on this allocation. If they have expenses, also suggest a percentage reduction in specific expense categories to help reach their goals faster. If they are overspending, focus the advice on reducing expenses to create disposable income first.`;
+   prompt += `In 3-4 sentences, suggest how to allocate their disposable income between debt repayment and savings as percentages (if available), calculate how many months it will take to pay off the debt and reach the savings goal based on this allocation (if available). If they have expenses, also suggest percentage reductions in at least two or more specific expense categories (if available) to help reach their goals faster, specifying the dollar amount saved. If they are overspending, focus the advice on reducing expenses to create disposable income first. If they have no debt, suggest investment options for their disposable income.`;
 
    const apiKey = process.env.XAI_API_KEY;
    if (!apiKey) {
