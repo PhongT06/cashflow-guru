@@ -1,7 +1,7 @@
 {
   "name": "cashflow-guru-backend",
   "version": "1.0.0",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc",
