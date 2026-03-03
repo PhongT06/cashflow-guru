@@ -1,0 +1,397 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+@keyframes pulseGlow {
+   0% {
+      background-position: 0% 50%;
+   }
+   100% {
+      background-position: 200% 50%;
+   }
+}
+
+@keyframes neonUnderline {
+   0% {
+      width: 0;
+   }
+   100% {
+      width: 100%;
+   }
+}
+
+@keyframes neonFlicker {
+   0% {
+      opacity: 1;
+   }
+   50% {
+      opacity: 0.8;
+   }
+   100% {
+      opacity: 1;
+   }
+   }
+
+@keyframes fadeIn {
+   0% {
+      opacity: 0;
+   }
+   100% {
+      opacity: 1;
+   }
+}
+
+/* Tracker Page Styles */
+.financial-container {
+   background: linear-gradient(145deg, rgba(10, 10, 30, 0.9), rgba(20, 20, 40, 0.9));
+   border: 2px solid #0ff;
+   border-radius: 15px;
+   padding: 20px;
+   box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+   display: flex;
+   justify-content: space-between;
+   gap: 20px;
+   margin-bottom: 40px;
+   transition: box-shadow 0.3s ease-in-out;
+   width: 100%;
+   max-width: 100%;
+   box-sizing: border-box;
+   overflow-x: hidden;
+}
+
+.financial-container:hover {
+   box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+}
+
+.financial-section {
+   flex: 1;
+   padding: 10px;
+   position: relative;
+   transition: transform 0.3s ease-in-out;
+   max-width: 100%;
+   box-sizing: border-box;
+}
+
+.financial-section:hover {
+   transform: scale(1.02);
+}
+
+.financial-section:not(:last-child)::after {
+   content: '';
+   position: absolute;
+   right: 0;
+   top: 10%;
+   height: 80%;
+   width: 1px;
+   background: linear-gradient(transparent, #0ff, transparent);
+   opacity: 0.5;
+}
+
+.section-title {
+   font-family: 'Orbitron', sans-serif;
+   font-size: 1.2rem;
+   font-weight: 700;
+   margin-bottom: 10px;
+   position: relative;
+   display: inline-flex;
+   align-items: center;
+   gap: 8px;
+}
+
+.section-title::after {
+   content: '';
+   position: absolute;
+   bottom: -4px;
+   left: 0;
+   height: 2px;
+   background: currentColor;
+   width: 0;
+   transition: width 0.3s ease-in-out;
+}
+
+.section-title:hover::after {
+   width: 100%;
+   animation: neonUnderline 0.3s forwards;
+}
+
+.section-content {
+   font-family: 'Roboto Mono', monospace;
+   font-size: 1rem;
+   color: #fff;
+   padding: 10px;
+   border-radius: 8px;
+}
+
+.debt-content {
+   background: linear-gradient(145deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
+}
+
+.income-content {
+   background: linear-gradient(145deg, rgba(0, 255, 0, 0.1), rgba(0, 255, 0, 0.05));
+}
+
+.savings-content {
+   background: linear-gradient(145deg, rgba(255, 15, 255, 0.1), rgba(255, 15, 255, 0.05));
+}
+
+.glow-box::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 2px;
+   background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.8), transparent);
+   background-size: 200% 100%;
+   animation: pulseGlow 2s linear infinite;
+}
+
+.chart-title {
+   font-family: 'Orbitron', sans-serif;
+   font-size: 1.5rem;
+   color: #0ff;
+   text-align: center;
+   margin-bottom: 20px;
+   text-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+   transition: text-shadow 0.3s ease-in-out;
+   }
+
+.chart-title:hover {
+   text-shadow: 0 0 10px rgba(0, 255, 255, 1);
+}
+
+.advice-section {
+   margin-bottom: 40px;
+   padding: 20px;
+   background-color: rgba(10, 10, 30, 0.9);
+   border: 2px solid #0ff;
+   border-radius: 10px;
+   color: #fff;
+   box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+   transition: box-shadow 0.3s ease-in-out;
+   width: 100%;
+   max-width: 100%;
+   box-sizing: border-box;
+}
+
+.advice-section:hover {
+   box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
+}
+
+.advice-title {
+   font-family: 'Orbitron', sans-serif;
+   font-size: 1.5rem;
+   color: #0ff;
+   margin-bottom: 15px;
+}
+
+.advice-content {
+   font-family: 'Roboto Mono', monospace;
+   font-size: 1rem;
+   color: #fff;
+}
+
+.summary-table {
+   font-size: 0.8rem;
+   width: 100% !important;
+   max-width: 100% !important;
+   box-sizing: border-box;
+}
+
+.summary-table table {
+   width: 100% !important;
+   max-width: 100% !important;
+   table-layout: fixed;
+}
+
+.summary-table th,
+.summary-table td {
+   padding: 8px 16px !important;
+   word-wrap: break-word;
+   font-size: 0.8rem;
+   width: 33.33%;
+   box-sizing: border-box;
+}
+
+.summary-table th:nth-child(1),
+.summary-table td:nth-child(1) {
+   text-align: left;
+   width: 33.33%;
+}
+
+.summary-table th:nth-child(2),
+.summary-table td:nth-child(2) {
+   text-align: center !important;
+   width: 33.33%;
+}
+
+.summary-table th:nth-child(3),
+.summary-table td:nth-child(3) {
+   text-align: right;
+   width: 33.33%;
+}
+
+/* Responsive Styles for Tracker */
+@media (max-width: 1200px) {
+   .financial-container {
+      flex-direction: column;
+      gap: 15px;
+      padding: 15px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
+   }
+   .financial-section {
+      padding: 5px;
+      width: 100%;
+      max-width: 100%;
+   }
+   .financial-section:not(:last-child)::after {
+      display: none;
+   }
+   .financial-section:not(:last-child) {
+      border-bottom: 1px solid #0ff;
+      padding-bottom: 15px;
+   }
+   .section-title {
+      font-size: 1.1rem;
+   }
+   .section-content {
+      font-size: 0.95rem;
+      padding: 8px;
+   }
+}
+
+@media (max-width: 768px) {
+   .financial-container {
+      flex-direction: column;
+      gap: 15px;
+      padding: 15px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
+   }
+   .financial-section {
+      padding: 5px;
+      width: 100%;
+      max-width: 100%;
+   }
+   .financial-section:not(:last-child)::after {
+      display: none;
+   }
+   .financial-section:not(:last-child) {
+      border-bottom: 1px solid #0ff;
+      padding-bottom: 15px;
+   }
+   .section-title {
+      font-size: 1rem;
+   }
+   .section-content {
+      font-size: 0.9rem;
+      padding: 8px;
+   }
+   .advice-section {
+      padding: 15px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+   }
+   .advice-title {
+      font-size: 1.2rem;
+   }
+   .advice-content {
+      font-size: 0.9rem;
+   }
+   .chart-section {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
+   }
+   .chart-section canvas {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+   }
+   .chart-title {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+   }
+   .summary-table {
+      font-size: 0.8rem;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box;
+   }
+   .summary-table table {
+      width: 100% !important;
+      max-width: 100% !important;
+      table-layout: fixed;
+   }
+   .summary-table th,
+   .summary-table td {
+      padding: 5px 12px !important;
+      word-wrap: break-word;
+      font-size: 0.8rem;
+      width: 33.33%;
+      box-sizing: border-box;
+   }
+}
+
+@media (max-width: 480px) {
+   .section-title {
+      font-size: 0.9rem;
+   }
+   .section-content {
+      font-size: 0.85rem;
+      padding: 6px;
+   }
+   .advice-title {
+      font-size: 1.1rem;
+   }
+   .advice-content {
+      font-size: 0.85rem;
+   }
+   .chart-title {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+   }
+   .summary-table {
+      font-size: 0.75rem;
+   }
+   .summary-table th,
+   .summary-table td {
+      padding: 4px 8px !important;
+      font-size: 0.75rem;
+      width: 33.33%;
+   }
+   .chart-section canvas {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 200px !important;
+   }
+}
+
+@media (min-width: 1200px) {
+   .financial-container {
+      flex-direction: row;
+      gap: 20px;
+      padding: 20px;
+      width: 100%;
+      max-width: 100%;
+   }
+   .financial-section:not(:last-child)::after {
+      display: block;
+   }
+   .financial-section:not(:last-child) {
+      border-bottom: none;
+   }
+   .summary-table table {
+      table-layout: fixed;
+   }
+   .summary-table th,
+   .summary-table td {
+      padding: 8px 16px !important;
+      width: 33.33%;
+   }
+}

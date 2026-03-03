@@ -1,0 +1,205 @@
+@import url('./Tracker.css');
+
+@keyframes neonFlicker {
+   0% {
+      opacity: 1;
+   }
+   50% {
+      opacity: 0.8;
+   }
+   100% {
+      opacity: 1;
+   }
+}
+
+@keyframes fadeIn {
+   0% {
+      opacity: 0;
+   }
+   100% {
+      opacity: 1;
+   }
+}
+
+.auth-container {
+   background: radial-gradient(circle, rgba(0, 10, 30, 1) 0%, rgba(0, 0, 10, 1) 100%);
+   min-height: 100vh;
+   width: 100vw;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 20px;
+   position: relative;
+   overflow-x: hidden;
+   box-sizing: border-box;
+}
+
+.auth-grid {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+   background-size: 20px 20px;
+   opacity: 0.5;
+}
+
+.auth-content {
+   z-index: 1;
+   text-align: center;
+   width: 100%;
+   max-width: 600px;
+   padding: 20px;
+   background: rgba(10, 10, 30, 0.9);
+   border: 2px solid #0ff;
+   border-radius: 10px;
+   box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+   animation: fadeIn 1s ease-in;
+}
+
+.auth-title {
+   font-family: 'Orbitron', sans-serif;
+   font-size: 2.5rem;
+   color: #0ff;
+   text-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+   margin-bottom: 20px;
+   animation: neonFlicker 1.5s infinite;
+}
+
+.auth-alert {
+   margin-bottom: 20px;
+   font-family: 'Roboto Mono', monospace;
+   font-size: 1rem;
+   border-radius: 8px;
+}
+
+.auth-alert.MuiAlert-standardSuccess {
+   background: rgba(0, 255, 0, 0.2);
+   color: #fff;
+   border: 1px solid #0f0;
+   box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.auth-alert.MuiAlert-standardError {
+   background: rgba(255, 0, 0, 0.2);
+   color: #fff;
+   border: 1px solid #f00;
+   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.auth-textfield .MuiInputBase-root {
+   font-family: 'Roboto Mono', monospace;
+   color: #fff;
+   background: rgba(10, 10, 30, 0.9);
+   border-radius: 8px;
+}
+
+.auth-textfield .MuiInputLabel-root {
+   font-family: 'Roboto Mono', monospace;
+   color: #0ff;
+}
+
+.auth-textfield .MuiOutlinedInput-notchedOutline {
+   border-color: #0ff;
+   box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.auth-textfield .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
+   border-color: #0ff;
+   box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+.auth-textfield .Mui-focused .MuiOutlinedInput-notchedOutline {
+   border-color: #0ff;
+   box-shadow: 0 0 15px rgba(0, 255, 255, 1);
+}
+
+.auth-button-primary {
+   font-family: 'Orbitron', sans-serif;
+   color: #0ff;
+   border: 2px solid #0ff;
+   border-radius: 8px;
+   padding: 10px 20px;
+   font-size: 1.2rem;
+   box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+   transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+   text-transform: none;
+   margin-top: 16px;
+}
+
+.auth-button-primary:hover {
+   box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+   transform: scale(1.05);
+}
+
+.auth-button-primary::after {
+   content: '';
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   height: 2px;
+   background: #0ff;
+   width: 0;
+   transition: width 0.3s ease-in-out;
+}
+
+.auth-button-primary:hover::after {
+   width: 100%;
+   animation: neonUnderline 0.3s forwards;
+}
+
+.auth-button-secondary {
+   font-family: 'Roboto Mono', monospace;
+   color: #0ff;
+   font-size: 1rem;
+   text-transform: none;
+   margin-top: 8px;
+   transition: text-shadow 0.3s ease-in-out;
+}
+
+.auth-button-secondary:hover {
+   text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+@media (max-width: 768px) {
+   .auth-title {
+      font-size: 2rem;
+   }
+   .auth-textfield .MuiInputLabel-root {
+      font-size: 0.95rem;
+   }
+   .auth-textfield .MuiInputBase-root {
+      font-size: 0.95rem;
+   }
+   .auth-button-primary {
+      font-size: 1rem;
+      padding: 8px 16px;
+   }
+   .auth-button-secondary {
+      font-size: 0.95rem;
+   }
+   .auth-alert {
+      font-size: 0.95rem;
+   }
+}
+
+@media (max-width: 480px) {
+   .auth-title {
+      font-size: 1.5rem;
+   }
+   .auth-textfield .MuiInputLabel-root {
+      font-size: 0.9rem;
+   }
+   .auth-textfield .MuiInputBase-root {
+      font-size: 0.9rem;
+   }
+   .auth-button-primary {
+      font-size: 0.9rem;
+      padding: 6px 12px;
+   }
+   .auth-button-secondary {
+      font-size: 0.9rem;
+   }
+   .auth-alert {
+      font-size: 0.9rem;
+   }
+}

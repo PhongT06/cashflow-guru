@@ -1,0 +1,124 @@
+@import url('./Tracker.css');
+
+.home-container {
+   background: radial-gradient(circle, rgba(0, 10, 30, 1) 0%, rgba(0, 0, 10, 1) 100%);
+   min-height: 100vh;
+   width: 100vw;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 20px;
+   position: relative;
+   overflow-x: hidden;
+   box-sizing: border-box;
+}
+
+.background-grid {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+   background-size: 20px 20px;
+   opacity: 0.5;
+}
+
+.home-content {
+   z-index: 1;
+   text-align: center;
+   width: 100%;
+   max-width: 800px;
+   padding: 0 10px;
+   box-sizing: border-box;
+}
+
+.video-player {
+   width: 100%;
+   max-width: 800px;
+   border: 2px solid #0ff;
+   border-radius: 10px;
+   box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+   transition: opacity 0.5s ease-out;
+}
+
+.start-section {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   animation: fadeIn 1s ease-in;
+}
+
+.home-icon {
+   font-size: 80px;
+   color: #0ff;
+   text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+   margin-bottom: 20px;
+   animation: neonFlicker 1.5s infinite;
+}
+
+.home-title {
+   font-family: 'Orbitron', sans-serif;
+   font-size: 2.5rem;
+   color: #0ff;
+   text-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+   margin-bottom: 10px;
+   animation: neonFlicker 1.5s infinite;
+}
+
+.home-subtitle {
+   font-family: 'Roboto Mono', monospace;
+   font-size: 1.2rem;
+   color: #fff;
+   margin-bottom: 20px;
+}
+
+.start-button {
+   font-family: 'Orbitron', sans-serif;
+   color: #0ff;
+   border: 2px solid #0ff;
+   border-radius: 8px;
+   padding: 10px 20px;
+   text-transform: none;
+   font-size: 1.2rem;
+   box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+   transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.start-button:hover {
+   box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+   transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+   .home-title {
+      font-size: 2rem;
+   }
+   .home-subtitle {
+      font-size: 1rem;
+   }
+   .home-icon {
+      font-size: 60px;
+   }
+   .start-button {
+      font-size: 1rem;
+      padding: 8px 16px;
+   }
+   .video-player {
+      max-width: 100%;
+   }
+}
+
+@media (max-width: 480px) {
+   .home-title {
+      font-size: 1.5rem;
+   }
+   .home-subtitle {
+      font-size: 0.9rem;
+   }
+   .home-icon {
+      font-size: 50px;
+   }
+   .start-button {
+      font-size: 0.9rem;
+      padding: 6px 12px;
+   }
+}
