@@ -15,6 +15,8 @@ const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
 
+const adviceCache = new Map<number, string>();
+
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
    throw new Error('JWT_SECRET is not set in environment variables');
@@ -67,6 +69,7 @@ app.post('/expenses', authenticateToken, async (req: AuthRequest, res: Response)
          userId,
          },
       });
+      adviceCache.delete(userId);
       res.status(201).json(newExpense);
    } catch (error) {
       res.status(500).json({ error: 'Failed to save expense' });
@@ -204,6 +207,7 @@ const profileHandler: RequestHandler = async (req: AuthRequest, res: Response): 
          }
       }
 
+      adviceCache.delete(userId);
       res.json({ message: 'Profile updated successfully' });
    } catch (error) {
       res.status(500).json({ error: 'Failed to update profile' });
@@ -257,6 +261,12 @@ const adviceHandler: RequestHandler = async (req: AuthRequest, res: Response): P
    const userId = req.user?.userId;
    if (!userId) {
       res.status(401).json({ error: 'Unauthorized: User ID not found' });
+      return;
+   }
+
+   const cached = adviceCache.get(userId);
+   if (cached) {
+      res.json({ advice: cached });
       return;
    }
 
@@ -331,36 +341,51 @@ const adviceHandler: RequestHandler = async (req: AuthRequest, res: Response): P
          }
          prompt += `In 3-4 sentences, suggest how to allocate their disposable income between debt repayment and savings as percentages (if available), calculate how many months it will take to pay off the debt and reach the savings goal based on this allocation (if available). If they have expenses, also suggest percentage reductions in at least two or more specific expense categories (if available) to help reach their goals faster, specifying the dollar amount saved. If they are overspending, focus the advice on reducing expenses to create disposable income first. If they have no debt, suggest investment options for their disposable income.`;
 
-         const apiKey = process.env.XAI_API_KEY;
+         const apiKey = process.env.GEMINI_API_KEY;
          if (!apiKey) {
-            res.status(500).json({ error: 'xAI API key not set' });
+            res.status(500).json({ error: 'Gemini API key not set' });
             return;
          }
 
          try {
             const response = await axios.post(
-            'https://api.x.ai/v1/chat/completions',
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
             {
-               model: 'grok-3-mini-fast-beta',
-               messages: [
-                  { role: 'user', content: prompt },
-               ],
-               max_tokens: 1500,
-               temperature: 0.7,
+               contents: [{ parts: [{ text: prompt }] }],
+               generationConfig: {
+                  maxOutputTokens: 8192,
+                  temperature: 0.7,
+               },
             },
             {
                headers: {
-                  'Authorization': `Bearer ${apiKey}`,
                   'Content-Type': 'application/json',
                },
             }
          );
 
-         const advice = response.data.choices[0]?.message?.content || 'No advice generated.';
+         const advice = response.data.candidates[0]?.content?.parts[0]?.text || 'No advice generated.';
+         adviceCache.set(userId, advice);
          res.json({ advice });
-      } catch (error) {
-         console.error('Error generating advice:', error);
-         res.status(500).json({ error: 'Failed to generate advice' });
+      } catch (error: any) {
+         const geminiStatus = error.response?.status;
+         const geminiError = error.response?.data?.error;
+         console.error('Error generating advice — HTTP status:', geminiStatus);
+         console.error('Gemini error body:', JSON.stringify(geminiError ?? error.message));
+
+         if (geminiStatus === 429) {
+            res.status(429).json({ error: 'AI rate limit reached. Please wait a moment and try again.' });
+         } else if (geminiStatus === 400) {
+            res.status(500).json({ error: `Gemini rejected the request (400): ${geminiError?.message ?? 'Bad request — check your API key format.'}` });
+         } else if (geminiStatus === 403) {
+            res.status(500).json({ error: 'Gemini API access denied (403): The Generative Language API may not be enabled for this API key in Google Cloud Console.' });
+         } else if (geminiStatus === 404) {
+            res.status(500).json({ error: 'Gemini model not found (404): The model "gemini-2.0-flash" may have been deprecated. Check the Gemini API docs for the current model name.' });
+         } else if (error.code === 'ECONNRESET' || error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+            res.status(503).json({ error: 'AI service is temporarily unavailable. Your API key may have reached its daily quota. Please try again later or use a new API key.' });
+         } else {
+            res.status(500).json({ error: `Failed to generate advice: ${geminiError?.message ?? error.message ?? 'Unknown error'}` });
+         }
       }
    } catch (error) {
       console.error('Error in adviceHandler:', error);
