@@ -10,10 +10,21 @@ interface AuthRequest extends Request {
    user?: { userId: number };
 }
 
+import path from 'path';
+
 const app = express();
 const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
+
+// serve React build in production
+if (process.env.NODE_ENV === 'production') {
+   const clientBuildPath = path.join(__dirname, '../../client/build');
+   app.use(express.static(clientBuildPath));
+   app.get('*', (req, res) => {
+      res.sendFile(path.join(clientBuildPath, 'index.html'));
+   });
+}
 
 const adviceCache = new Map<number, string>();
 
