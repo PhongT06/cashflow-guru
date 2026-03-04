@@ -18,7 +18,7 @@
     "dev:server": "npm --workspace=server run dev",
     "dev": "npm run dev:server",
     "migrate": "npm --workspace=server run migrate",
-    "test": "npm --workspace=client test || npm --workspace=server test"
+    "test": "npm --workspace=client test && npm --workspace=server test"
   },
   "keywords": [],
   "author": "",
