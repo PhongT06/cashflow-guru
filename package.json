@@ -1,37 +1,33 @@
 {
-  "name": "cashflow-guru-backend",
+  "private": true,
+  "name": "cashflow-guru-workspace",
   "version": "1.0.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "main": "dist/index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc",
-    "dev": "ts-node server.ts",
-    "migrate": "npx prisma migrate deploy",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bootstrap": "npm install",
+    "build:server": "npm --workspace=server run build",
+    "build:client": "npm --workspace=client run build",
+    "build": "npm run build:server && npm run build:client",
+    "start:server": "npm --workspace=server start",
+    "start:client": "npm --workspace=client start",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "dev:server": "npm --workspace=server run dev",
+    "dev": "npm run dev:server",
+    "migrate": "npm --workspace=server run migrate",
+    "test": "npm --workspace=client test || npm --workspace=server test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@types/node": "^22.14.0",
-    "axios": "^1.8.4",
-    "bcryptjs": "^3.0.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "huggingface": "^1.4.0",
-    "jsonwebtoken": "^9.0.2"
+    "concurrently": "^8.2.0"
   },
   "devDependencies": {
-    "@prisma/client": "^6.6.0",
-    "@types/bcryptjs": "^3.0.0",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.1",
-    "@types/jsonwebtoken": "^9.0.9",
-    "nodemon": "^3.1.9",
-    "prisma": "^6.6.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "engines": {

@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, onegit ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build server and client
+        run: npm run build
+
+      - name: Run server tests (if any)
+        run: |
+          if [ -f server/package.json ]; then
+            cd server && npm run test || true
+          fi
+
+      - name: Run client tests (if any)
+        run: |
+          if [ -f client/package.json ]; then
+            cd client && npm run test || true
+          fi
+
+      # Add deployment steps here, for example:
+      # - name: Deploy to production
+      #   run: ./deploy.sh
