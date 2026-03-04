@@ -40,6 +40,9 @@ jobs:
             cd client && npm run test || true
           fi
 
-      # Add deployment steps here, for example:
-      # - name: Deploy to production
-      #   run: ./deploy.sh
+      - name: Deploy to Render
+        uses: render-examples/gh-actions-example@v1
+        with:
+          apiKey: ${{ secrets.RENDER_API_KEY }}       
+          serviceId: ${{ secrets.RENDER_SERVICE_ID }}   
+          branch: ${{ github.ref }}                     

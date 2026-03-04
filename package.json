@@ -11,7 +11,7 @@
     "bootstrap": "npm install",
     "build:server": "npm --workspace=server run build",
     "build:client": "npm --workspace=client run build",
-    "build": "npm run build:server && npm run build:client",
+    "build": "npm run build:client && npm run build:server",
     "start:server": "npm --workspace=server start",
     "start:client": "npm --workspace=client start",
     "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
