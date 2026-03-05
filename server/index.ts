@@ -17,14 +17,6 @@ const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
 
-// serve React build in production
-if (process.env.NODE_ENV === 'production') {
-   const clientBuildPath = path.join(__dirname, '../../client/build');
-   app.use(express.static(clientBuildPath));
-   app.get('*', (req, res) => {
-      res.sendFile(path.join(clientBuildPath, 'index.html'));
-   });
-}
 
 const adviceCache = new Map<number, string>();
 
@@ -405,5 +397,14 @@ const adviceHandler: RequestHandler = async (req: AuthRequest, res: Response): P
 };
 
 app.post('/advice', authenticateToken, adviceHandler);
+
+if (process.env.NODE_ENV === 'production') {
+   const clientBuildPath = path.join(__dirname, '../../client/build');
+   app.use(express.static(clientBuildPath));
+   // wildcard should come last and exclude API endpoints
+   app.get('/*', (req, res) => {
+      res.sendFile(path.join(clientBuildPath, 'index.html'));
+   });
+}
 
 app.listen(3001, () => console.log('Server running on port 3001'));
