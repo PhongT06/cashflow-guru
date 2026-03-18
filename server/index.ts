@@ -402,7 +402,7 @@ if (process.env.NODE_ENV === 'production') {
    const clientBuildPath = path.join(__dirname, '../../client/build');
    app.use(express.static(clientBuildPath));
    // wildcard should come last and exclude API endpoints
-   app.get('/*', (req, res) => {
+   app.get(/(.*)/, (req, res) => {
       res.sendFile(path.join(clientBuildPath, 'index.html'));
    });
 }
