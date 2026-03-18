@@ -15,7 +15,12 @@ import path from 'path';
 const app = express();
 const prisma = new PrismaClient();
 app.use(express.json());
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000' }));
+
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:3000').split(',').map(o => o.trim());
+app.use(cors({ origin: (origin, callback) => {
+   if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+   callback(new Error(`CORS blocked: ${origin}`));
+}}));
 
 
 const adviceCache = new Map<number, string>();
@@ -119,6 +124,7 @@ const registerHandler: RequestHandler = async (req: Request, res: Response): Pro
       });
       res.status(201).json({ message: 'User registered successfully' });
    } catch (error) {
+      console.error('[/register] error:', error);
       res.status(500).json({ error: 'Registration failed' });
    }
 };
@@ -148,6 +154,7 @@ const loginHandler: RequestHandler = async (req: Request, res: Response): Promis
       const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
       res.status(200).json({ message: 'Login successful', token });
    } catch (error) {
+      console.error('[/login] error:', error);
       res.status(500).json({ error: 'Login failed' });
    }
 };
