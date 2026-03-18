@@ -16,11 +16,10 @@ const app = express();
 const prisma = new PrismaClient();
 app.use(express.json());
 
-const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:3000').split(',').map(o => o.trim());
-app.use(cors({ origin: (origin, callback) => {
-   if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-   callback(new Error(`CORS blocked: ${origin}`));
-}}));
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:3000')
+   .split(',')
+   .map(o => o.trim());
+app.use(cors({ origin: allowedOrigins }));
 
 
 const adviceCache = new Map<number, string>();
