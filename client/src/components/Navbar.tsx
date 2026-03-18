@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
          }
 
          try {
-            await axios.get('http://localhost:3001/expenses', {
+            await axios.get('/expenses', {
                headers: { Authorization: `Bearer ${token}` },
             });
             setIsLoggedIn(true);

@@ -15,7 +15,7 @@ import path from 'path';
 const app = express();
 const prisma = new PrismaClient();
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000' }));
 
 
 const adviceCache = new Map<number, string>();
@@ -407,4 +407,5 @@ if (process.env.NODE_ENV === 'production') {
    });
 }
 
-app.listen(3001, () => console.log('Server running on port 3001'));
+const PORT = Number(process.env.PORT) || 3001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

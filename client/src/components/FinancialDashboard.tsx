@@ -47,7 +47,7 @@ const FinancialDashboard: React.FC = () => {
          navigate('/login');
          return;
          }
-         await axios.post('http://localhost:3001/expenses', newExpense, {
+         await axios.post('/expenses', newExpense, {
          headers: { Authorization: `Bearer ${token}` },
          });
          setExpenseAmount('');
@@ -72,10 +72,10 @@ const FinancialDashboard: React.FC = () => {
          return;
       }
       try {
-         await axios.post('http://localhost:3001/profile', { income: Number(income), debts, savingsGoals }, {
+         await axios.post('/profile', { income: Number(income), debts, savingsGoals }, {
          headers: { Authorization: `Bearer ${token}` },
          });
-         const response = await axios.post('http://localhost:3001/advice', {}, {
+         const response = await axios.post('/advice', {}, {
          headers: { Authorization: `Bearer ${token}` },
          });
          navigate('/tracker', { state: { advice: response.data.advice } });
