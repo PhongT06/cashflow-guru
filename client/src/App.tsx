@@ -23,7 +23,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactElement }> = ({ children }
         return;
       }
       try {
-        await axios.get('http://localhost:3001/expenses', {
+        await axios.get('/expenses', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setIsAuthenticated(true);

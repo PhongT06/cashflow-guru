@@ -34,10 +34,10 @@ const Tracker: React.FC = () => {
                navigate('/login');
                return;
             }
-            const profileResponse = await axios.get('http://localhost:3001/profile', {
+            const profileResponse = await axios.get('/profile', {
                headers: { Authorization: `Bearer ${token}` },
             });
-            const expensesResponse = await axios.get('http://localhost:3001/expenses', {
+            const expensesResponse = await axios.get('/expenses', {
                headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -45,7 +45,7 @@ const Tracker: React.FC = () => {
             if (routeAdvice) {
                setAdvice(routeAdvice);
             } else {
-               const adviceResponse = await axios.post('http://localhost:3001/advice', {}, {
+               const adviceResponse = await axios.post('/advice', {}, {
                   headers: { Authorization: `Bearer ${token}` },
                });
                setAdvice(adviceResponse.data.advice);

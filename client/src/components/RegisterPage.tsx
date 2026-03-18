@@ -12,10 +12,10 @@ const RegisterPage: React.FC = () => {
 
    const handleRegister = async () => {
       try {
-         const registerResponse = await axios.post('http://localhost:3001/register', { email, password });
+         const registerResponse = await axios.post('/register', { email, password });
          setMessage({ type: 'success', text: registerResponse.data.message });
 
-         const loginResponse = await axios.post('http://localhost:3001/login', { email, password });
+         const loginResponse = await axios.post('/login', { email, password });
          localStorage.setItem('token', loginResponse.data.token);
          window.dispatchEvent(new Event('storage'));
 

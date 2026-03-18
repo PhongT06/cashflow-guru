@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
 
    const handleLogin = async () => {
       try {
-         const response = await axios.post('http://localhost:3001/login', { email, password });
+         const response = await axios.post('/login', { email, password });
          setMessage({ type: 'success', text: response.data.message });
          localStorage.setItem('token', response.data.token);
          window.dispatchEvent(new Event('storage'));
